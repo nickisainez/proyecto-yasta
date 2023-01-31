@@ -1,8 +1,5 @@
 type Main = {
-    name: String
-}
+  name: string;
+};
 
-
-export {
-    Main
-}
+export { Main };
