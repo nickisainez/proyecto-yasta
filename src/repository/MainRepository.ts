@@ -1,6 +1,7 @@
-import { Main } from "../entity/Main";
+import { PostgrestResponse } from "@supabase/supabase-js";
+import supabase from "../connection/supabase";
 
-export async function getHellWorld(): Promise<Main> {
-  const data = <Main>await Promise.resolve({ name: "hello" });
+export async function getHellWorld(): Promise<PostgrestResponse<any>> {
+  const data = await supabase.from("cycle").select("*");
   return data;
 }
