@@ -1,9 +1,9 @@
 {
-  "name": "myaeducaserver",
+  "name": "yastapp",
   "license": "MIT",
   "version": "2.99.9",
   "scripts": {
-    "dev": "ts-node  index.ts",
+    "dev": "ts-node  app.ts",
     "lint": "eslint --ext src/**/*.ts",
     "prettier": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
@@ -18,7 +18,6 @@
     "@typescript-eslint/eslint-plugin": "4.33.0",
     "@typescript-eslint/parser": "4.33.0",
     "eslint-config-prettier": "^8.5.0",
-    "pino-pretty": "^7.6.1",
     "prettier": "^2.7.1",
     "ts-node": "10.4.0",
     "typescript": "4.5.4"
