@@ -5,7 +5,6 @@ import { config } from "dotenv";
 import error from "./src/midlewares/error";
 import logger from "./src/midlewares/logger";
 
-
 config();
 
 const app = express();
@@ -26,13 +25,11 @@ app.use(express.json());
 
 app.use(logger);
 
-
 //app.use(secureApi);
 
 app.use(api_url, routes);
 
 app.use(error);
-
 
 app.listen(port, () => {
   console.log("server running", port);

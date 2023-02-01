@@ -6,7 +6,7 @@
     "dev": "ts-node  app.ts",
     "lint": "eslint --ext src/**/*.ts",
     "prettier": "prettier --config .prettierrc 'src/**/*.ts' --write",
-    "precommit": "npm run prettier && npm run lint"    
+    "precommit": "npm run prettier && npm run lint"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
