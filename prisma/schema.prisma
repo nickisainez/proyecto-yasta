@@ -35,6 +35,8 @@ model Person {
   photo        String
   description  String
   user_type    String
+  password     String
+  last_session DateTime       @default(now())
   create_at    DateTime       @default(now())
   attendance   Attendance[]
   user_payment User_Payment[]
