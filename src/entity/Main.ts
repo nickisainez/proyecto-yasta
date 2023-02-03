@@ -1,6 +1,5 @@
 type Main = {
-    name: string;
-  };
-  
-  export { Main };
-  
+  name: string;
+};
+
+export { Main };

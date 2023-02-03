@@ -66,6 +66,8 @@ model Attendance {
   priority   String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  
+  @@map("attendance")
 }
 
 model User_Payment {
