@@ -1,7 +1,5 @@
-import { PostgrestResponse } from "@supabase/supabase-js";
-import supabase from "../connection/supabase";
+import prisma from "../connection/prisma";
 
-export async function getHellWorld(): Promise<PostgrestResponse<any>> {
-  const data = await supabase.from("cycle").select("*");
-  return data;
+export async function getHellWorld(): Promise<any> {
+  return await prisma.instance.cycle.findMany();
 }
