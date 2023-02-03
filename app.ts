@@ -13,6 +13,7 @@ const app = express();
 
 const port = parseInt(<string>process.env.PORT);
 const cli_origin: string = <string>process.env.CLIURL;
+const api_url: string = <string>process.env.API;
 
 app.use(cors({ origin: cli_origin }));
 
@@ -30,9 +31,13 @@ connectMongoDBService();
 
 //app.use(secureApi);
 
-useRouter(app)
-  .catch((e) => console.error(e))
-  .finally(async () => await prisma.instance.$disconnect());
+try {
+  useRouter(app, api_url);
+} catch (error) {
+  console.log(error);
+} finally {
+  prisma.instance.$disconnect()
+}
 
 app.use(error);
 

@@ -32,13 +32,12 @@
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^8.6.0",
-    "express": "^4.18.1",
+    "express": "^4.18.2",
     "express-fileupload": "^1.4.0",
     "helmet": "^4.6.0",
-    "jsonwebtoken": "^8.5.1",
-    "mongodb": "^4.13.0",
-    "nodemailer": "^6.7.8",
+    "jsonwebtoken": "^9.0.0",
+    "mongodb": "^5.0.0",
     "prisma": "^4.9.0",
-    "socket.io": "^3.1.2"
+    "socket.io": "^4.4.1"
   }
 }

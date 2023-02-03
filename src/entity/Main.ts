@@ -1,10 +1,15 @@
-import { ObjectId } from "mongodb";
+import { Collection, ObjectId } from "mongodb";
+import { db } from "../connection/mongoconnection";
 
-const MESSAGE_COLLECTION = "message";
+const MAIN_COLLECTION = "main";
 
-type Main = {
+type IMain = {
   _id: ObjectId;
   name: string;
 };
 
-export { Main };
+const MAIN = (): Collection<IMain> => {
+  return db.collection<IMain>(MAIN_COLLECTION);
+};
+
+export { IMain, MAIN };

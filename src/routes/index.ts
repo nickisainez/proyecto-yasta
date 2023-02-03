@@ -2,9 +2,7 @@ import { Express, Router } from "express";
 
 import main from "./main";
 
-const api_url: string = <string>process.env.API;
-
-export async function useRouter(app: Express) {
+export async function useRouter(app: Express, api_url: string) {
   //version 1
 
   const router = Router();
@@ -14,6 +12,6 @@ export async function useRouter(app: Express) {
 
   //attendadce
   //attendadce routes
-
+  console.log(api_url);
   app.use(api_url, router);
 }
