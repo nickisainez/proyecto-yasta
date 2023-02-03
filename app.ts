@@ -1,9 +1,10 @@
 import cors from "cors";
-import routes from "./src/delivery";
+import { useRouter } from "./src/routes";
 import express from "express";
 import { config } from "dotenv";
 import error from "./src/midlewares/error";
 import logger from "./src/midlewares/logger";
+import prisma from "./src/connection/prisma";
 
 config();
 
@@ -11,7 +12,7 @@ const app = express();
 
 const port = parseInt(<string>process.env.PORT);
 const cli_origin: string = <string>process.env.CLIURL;
-const api_url: string = <string>process.env.API;
+
 
 app.use(cors({ origin: cli_origin }));
 
@@ -27,9 +28,12 @@ app.use(logger);
 
 //app.use(secureApi);
 
-app.use(api_url, routes);
+useRouter(app)
+  .catch((e) => console.error(e))
+  .finally(async () => await prisma.instance.$disconnect())
 
 app.use(error);
+
 
 app.listen(port, () => {
   console.log("server running", port);
