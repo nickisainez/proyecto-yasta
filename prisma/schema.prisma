@@ -11,13 +11,80 @@ datasource db {
 }
 
 model Cycle {
-  id Int @id @default(autoincrement())
-  name String
+  id          Int          @id @default(autoincrement())
+  name        String
   description String
-  start_date DateTime
+  start_date  DateTime
   finish_date DateTime
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  created_at  DateTime     @default(now())
+  updated_at  DateTime     @updatedAt
+  user_cycle  User_Cycle[]
 
   @@map("cycle")
+}
+
+model Person {
+  id           Int            @id @default(autoincrement())
+  name         String
+  last_name    String
+  date_born_at DateTime
+  number       String
+  dni          String         @unique
+  email        String         @unique
+  address      String
+  photo        String
+  description  String
+  user_type    String
+  create_at    DateTime       @default(now())
+  attendance   Attendance[]
+  user_payment User_Payment[]
+  user_cycle   User_Cycle[]
+
+  @@map("person")
+}
+
+model Payment {
+  id              Int      @id @default(autoincrement())
+  payment_type    String
+  description     String
+  expiration_date DateTime
+  created_at      DateTime @default(now())
+
+  user_payment User_Payment[]
+
+  @@map("payment")
+}
+
+model Attendance {
+  id         Int      @id @default(autoincrement())
+  state      String
+  entry_time DateTime
+  person     Person   @relation(fields: [id_person], references: [id])
+  id_person  Int
+  priority   String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model User_Payment {
+  id           Int      @id @default(autoincrement())
+  payment_date DateTime
+  person       Person   @relation(fields: [id_person], references: [id])
+  id_person    Int
+  payment      Payment  @relation(fields: [id_payment], references: [id])
+  id_payment   Int
+  created_at   DateTime @default(now())
+
+  @@map("user_payment")
+}
+
+model User_Cycle {
+  id        Int    @id @default(autoincrement())
+  person    Person @relation(fields: [id_person], references: [id])
+  id_person Int
+  cycle     Cycle  @relation(fields: [id_cycle], references: [id])
+  id_cycle  Int
+  section   String
+
+  @@map("user_cycle")
 }
