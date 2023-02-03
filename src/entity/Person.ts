@@ -2,7 +2,7 @@ export type Person = {
   id: number;
   name: string;
   last_name: string;
-  date_born: Date;
+  date_born_at: Date;
   number: string;
   dni: string;
   email: string;
