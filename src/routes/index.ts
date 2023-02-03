@@ -1,6 +1,7 @@
 import { Express, Router } from "express";
 
-import main from "./main";
+import payment from "./payment";
+
 const api_url: string = <string>process.env.API;
 
 export async function useRouter(app: Express) {
@@ -8,8 +9,7 @@ export async function useRouter(app: Express) {
 
   const router = Router();
 
-  //test
-  router.use("/main", main);
+  router.use("/payment", payment);
 
   //cycle
   //cycle routes
