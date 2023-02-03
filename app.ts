@@ -13,7 +13,6 @@ const app = express();
 const port = parseInt(<string>process.env.PORT);
 const cli_origin: string = <string>process.env.CLIURL;
 
-
 app.use(cors({ origin: cli_origin }));
 
 app.use(
@@ -30,10 +29,9 @@ app.use(logger);
 
 useRouter(app)
   .catch((e) => console.error(e))
-  .finally(async () => await prisma.instance.$disconnect())
+  .finally(async () => await prisma.instance.$disconnect());
 
 app.use(error);
-
 
 app.listen(port, () => {
   console.log("server running", port);

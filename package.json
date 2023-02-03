@@ -5,8 +5,11 @@
   "scripts": {
     "dev": "ts-node  app.ts",
     "lint": "eslint --ext src/**/*.ts",
+    "lintwin": "npx eslint .",
     "prettier": "prettier --config .prettierrc 'src/**/*.ts' --write",
-    "precommit": "npm run prettier && npm run lint"
+    "prettierwin": "npx  prettier --config .prettierrc --write .",
+    "precommit": "npm run prettier && npm run lint",
+    "precommitwin": "npm run prettierwin && npm run lintwin"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

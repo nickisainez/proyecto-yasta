@@ -74,3 +74,9 @@ git push origin turama
 
 > Despues debe crear pull request
 > pull request tiene una estructura, verifique pull request anteriores
+
+#Reemplazar lo siguiente en el package.json (para usuarios de windows):
+
+"lint": "npx eslint .",
+"prettier": "npx prettier --write .",
+"precommit": "npm run prettier && npm run lint"
