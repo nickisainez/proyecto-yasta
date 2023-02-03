@@ -2,6 +2,7 @@ import cors from "cors";
 import { useRouter } from "./src/routes";
 import express from "express";
 import { config } from "dotenv";
+import { connect as  connectMongoDBService } from "./src/connection/mongoconnection";
 import error from "./src/midlewares/error";
 import logger from "./src/midlewares/logger";
 import prisma from "./src/connection/prisma";
@@ -12,6 +13,7 @@ const app = express();
 
 const port = parseInt(<string>process.env.PORT);
 const cli_origin: string = <string>process.env.CLIURL;
+const api_url: string = <string>process.env.API;
 
 app.use(cors({ origin: cli_origin }));
 
@@ -25,11 +27,17 @@ app.use(express.json());
 
 app.use(logger);
 
+connectMongoDBService();
+
 //app.use(secureApi);
 
-useRouter(app)
-  .catch((e) => console.error(e))
-  .finally(async () => await prisma.instance.$disconnect());
+try {
+  useRouter(app, api_url);
+} catch (error) {
+  console.log(error);
+} finally {
+  prisma.instance.$disconnect()
+}
 
 app.use(error);
 

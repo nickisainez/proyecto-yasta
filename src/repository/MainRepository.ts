@@ -1,5 +1,5 @@
-import prisma from "../connection/prisma";
+import { MAIN } from "../entity/Main";
 
-export async function getHellWorld(): Promise<any> {
-  return await prisma.instance.cycle.findMany();
+export async function getHellWorld() {
+  return await MAIN().find().toArray();
 }
