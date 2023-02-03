@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { SUCCESS_STATUS, BAD_REQUEST } from "../core/constant";
+import { hashPassword } from "../utils/strings";
 import {
   GetPerson,
   CreatePerson,
@@ -19,6 +20,7 @@ class PersonHandler {
 
   public async CreatePerson(req: Request, res: Response): Promise<Response> {
     const data = req.body;
+    data.password = await hashPassword(req.body.password);
     data.date_born_at = new Date(data.date_born_at);
     const new_person = await CreatePerson(data);
     if (new_person) {
