@@ -6,7 +6,7 @@ import {
   paymentById,
   updatePayment,
   deletePayment
-} from "../repositiry/PaymentRepository";
+} from "../repository/PaymentRepository";
 
 class PaymentHandler {
   public async findPayments(_req: Request, res: Response): Promise<Response> {
