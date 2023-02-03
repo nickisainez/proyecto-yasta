@@ -10,4 +10,5 @@ prisma/dev.db-journal
 node_modules
 dist
 .db
+data
 migrations/

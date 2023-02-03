@@ -2,6 +2,7 @@ import cors from "cors";
 import { useRouter } from "./src/routes";
 import express from "express";
 import { config } from "dotenv";
+import { connect as  connectMongoDBService } from "./src/connection/mongoconnection";
 import error from "./src/midlewares/error";
 import logger from "./src/midlewares/logger";
 import prisma from "./src/connection/prisma";
@@ -24,6 +25,8 @@ app.use(
 app.use(express.json());
 
 app.use(logger);
+
+connectMongoDBService();
 
 //app.use(secureApi);
 
