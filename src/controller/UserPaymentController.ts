@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import { SUCCESS_STATUS, BAD_REQUEST } from "../core/constant";
+import { NextFunction, Request, Response } from "express";
+import { success } from "../utils/response";
 import {
   findUserPayment,
   updateUserPayment,
@@ -8,59 +8,61 @@ import {
 
 import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 class UserPaymentHandler {
-  public async findUserPayment(_req: Request, res: Response): Promise<Response> {
-    const data = await findUserPayment();
-    if (data) {
-      return res.status(SUCCESS_STATUS).send({ data });
-    } else {
-      return res.status(BAD_REQUEST);
-    }
-  };
-
-  public async storeUserPayment (req: Request, res: Response): Promise<void>  {
+  public async findUserPayment(_req: Request, res: Response, next: NextFunction) {
     try {
-      const {payment_date, person, payment} = req.body;
-  
+      const data = await findUserPayment();
+      return success({ res, data });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  public async storeUserPayment(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { payment_date, person, payment } = req.body;
+
       await prisma.user_Payment.create({
         data: {
           payment_date,
           person: { connect: { id: person } },
-          payment : {connect: { id : payment} }
+          payment: { connect: { id: payment } }
         }
       });
-      res.status(201).json({ ok: true, message: "Pago de usuario agregado"});
-  
+      return success({ res, message: "Pago de usuario creado correctamente" });
     } catch (error) {
-      res.status(500).json({ ok: false, message: error });
+      next(error);
     }
-  };
+  }
 
-  public async updateUserPayment(req: Request, res: Response): Promise<void> {
+  public async updateUserPayment(req: Request, res: Response, next: NextFunction) {
     try {
       const id = Number(req.params.id);
       const data = req.body;
-      await updateUserPayment(id, data);
+      const update_uspay = await updateUserPayment(id, data);
 
-      res.status(SUCCESS_STATUS).json({ ok: true, message: "Pago de usuario actualizado" });
+      return success({
+        res,
+        data: update_uspay,
+        message: "Pago de usuario actualizado correctamente"
+      });
     } catch (error) {
-      res.status(BAD_REQUEST).json({ ok: false, message: error });
+      next(error);
     }
-  };
+  }
 
-  public async deleteUserPayment(req: Request, res: Response): Promise<void> {
+  public async deleteUserPayment(req: Request, res: Response, next: NextFunction) {
     try {
       const id = Number(req.params.id);
       await deleteUserPayment(id);
 
-      res.status(SUCCESS_STATUS).json({ ok: true, message: "Pago de usuario eliminado" });
+      return success({ res, message: "Pago de usuario eliminado correctamente" });
     } catch (error) {
-      res.status(BAD_REQUEST).json({ ok: false, message: error });
+      next(error);
     }
   }
-
 }
 
 export default UserPaymentHandler;
