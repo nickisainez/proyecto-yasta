@@ -4,6 +4,7 @@ import main from "./main";
 import person from "./person";
 import cycle from "./cycle";
 import payment from "./payment";
+import usercycle from "./userCycle";
 import attendance from "./attendance";
 
 export async function useRouter(app: Express, api_url: string) {
@@ -25,6 +26,9 @@ export async function useRouter(app: Express, api_url: string) {
   router.use("/payment", payment);
   //attendadce
   router.use("/attendance", attendance);
+
+  //usercycle
+  router.use("/usercycle", usercycle);
 
   //attendadce
   //attendadce routes
