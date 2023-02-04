@@ -6,7 +6,8 @@ import { createToken } from "../midlewares/createToken";
 
 class LoginHandler {
   public async login(req: Request, res: Response, next: NextFunction) {
-    const { dni, password } = req.body;
+    try{
+      const { dni, password } = req.body;
     const user = await bydni(dni);
     if (!user) {
       return failure({ res, message: "DNI no encontrado" });
@@ -18,6 +19,10 @@ class LoginHandler {
     const lastsession = await updateLastSession(user.id);
     const token = await createToken(dni);
     return success({ res, data: {...user,token }});
+    }catch(error){
+      return failure({res,  message:{ error } });
+    }
+    
   }
 }
 export default LoginHandler;
