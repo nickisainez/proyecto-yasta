@@ -1,6 +1,8 @@
 import { Express, Router } from "express";
 
 import main from "./main";
+import userCycle from "./userCycle";
+
 const api_url: string = <string>process.env.API;
 
 export async function useRouter(app: Express) {
@@ -19,6 +21,9 @@ export async function useRouter(app: Express) {
 
   //attendadce
   //attendadce routes
+
+  //usercycle
+  router.use("/usercycle", userCycle);
 
   app.use(api_url, router);
 }
