@@ -1,51 +1,53 @@
-import { Request, Response } from "express";
-import { SUCCESS_STATUS, BAD_REQUEST } from "../core/constant";
+import { NextFunction, Request, Response } from "express";
+import { hashPassword } from "../utils/strings";
 import {
   GetPerson,
   CreatePerson,
   DeletePerson,
   UpdatePerson
 } from "../repository/PersonRepository";
+import { success } from "../utils/response";
 
 class PersonHandler {
-  public async GetPerson(_req: Request, res: Response): Promise<Response> {
-    const data = await GetPerson();
-    if (data) {
-      return res.status(SUCCESS_STATUS).send({ data });
-    } else {
-      return res.status(BAD_REQUEST);
+  public async GetPerson(_req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = await GetPerson();
+      return success({ res, data });
+    } catch (error) {
+      next(error);
     }
   }
 
-  public async CreatePerson(req: Request, res: Response): Promise<Response> {
-    const data = req.body;
-    data.date_born_at = new Date(data.date_born_at);
-    const new_person = await CreatePerson(data);
-    if (new_person) {
-      return res.status(SUCCESS_STATUS).send({ data });
-    } else {
-      return res.status(BAD_REQUEST);
+  public async CreatePerson(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = req.body;
+      data.password = await hashPassword(req.body.password);
+      data.date_born_at = new Date(data.date_born_at);
+      const new_person = await CreatePerson(data);
+      return success({ res, data: new_person, message: "Correctamente creado" });
+    } catch (error) {
+      next(error);
     }
   }
 
-  public async UpdatePerson(req: Request, res: Response): Promise<Response> {
-    const id = Number(req.params.id);
-    const data = req.body;
-    const update_person = await UpdatePerson(id, data);
-    if (update_person) {
-      return res.status(SUCCESS_STATUS).send({ update_person });
-    } else {
-      return res.status(BAD_REQUEST);
+  public async UpdatePerson(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = Number(req.params.id);
+      const data = req.body;
+      const update_person = await UpdatePerson(id, data);
+      return success({ res, data: update_person, message: "Correctamente modificado" });
+    } catch (error) {
+      next(error);
     }
   }
 
-  public async DeletePerson(req: Request, res: Response): Promise<Response> {
-    const id = Number(req.params.id);
-    const delete_person = await DeletePerson(id);
-    if (delete_person) {
-      return res.status(SUCCESS_STATUS).send({ delete_person });
-    } else {
-      return res.status(BAD_REQUEST);
+  public async DeletePerson(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = Number(req.params.id);
+      await DeletePerson(id);
+      return success({ res, message: "Correctamente eliminado" });
+    } catch (error) {
+      next(error);
     }
   }
 }

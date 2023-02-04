@@ -3,9 +3,9 @@ import { Express, Router } from "express";
 import main from "./main";
 import person from "./person";
 import cycle from "./cycle";
-const api_url: string = <string>process.env.API;
+import payment from "./payment";
 
-export async function useRouter(app: Express) {
+export async function useRouter(app: Express, api_url: string) {
   //version 1
 
   const router = Router();
@@ -20,9 +20,10 @@ export async function useRouter(app: Express) {
   router.use("/cycle", cycle);
   //person
   //person routes
+  //payment
+  router.use("/payment", payment);
 
   //attendadce
   //attendadce routes
-
   app.use(api_url, router);
 }

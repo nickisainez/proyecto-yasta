@@ -11,4 +11,6 @@ export type Person = {
   description: string;
   user_type: string;
   create_at: Date;
+  password: string;
+  last_session: Date;
 };

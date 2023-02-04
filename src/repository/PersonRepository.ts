@@ -2,7 +2,7 @@ import prisma from "../connection/prisma";
 import { Person } from "../entity/Person";
 
 export async function GetPerson(): Promise<any> {
-  return await prisma.instance.person.findMany();
+  return await prisma.instance.person.findFirstOrThrow({ where: { id: 100 } });
 }
 
 export async function CreatePerson(data: Person): Promise<any> {

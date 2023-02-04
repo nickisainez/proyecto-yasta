@@ -1,9 +1,11 @@
 import { NextFunction, Request, Response } from "express";
-import { BAD_REQUEST } from "../core/constant";
-//eslint-disable-next-line
-export default (err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.error(err.message, err);
-  return res.status(BAD_REQUEST).json({
-    error: err.message
-  });
+import { failure } from "../utils/response";
+
+export const syncErrorMiddleware = (
+  err: Error,
+  req: Request, //eslint-disable-line
+  res: Response,
+  next: NextFunction //eslint-disable-line
+) => {
+  return failure({ res, message: err.message });
 };
