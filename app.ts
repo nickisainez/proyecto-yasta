@@ -2,7 +2,7 @@ import cors from "cors";
 import { useRouter } from "./src/routes";
 import express from "express";
 import { config } from "dotenv";
-import { connect as  connectMongoDBService } from "./src/connection/mongoconnection";
+import { connect as connectMongoDBService } from "./src/connection/mongoconnection";
 import { syncErrorMiddleware } from "./src/midlewares/error";
 import logger from "./src/midlewares/logger";
 import prisma from "./src/connection/prisma";
@@ -36,11 +36,10 @@ try {
 } catch (error) {
   console.log(error);
 } finally {
-  prisma.instance.$disconnect()
+  prisma.instance.$disconnect();
 }
 
 app.use(syncErrorMiddleware);
-
 
 app.listen(port, () => {
   console.log("server running", port);
