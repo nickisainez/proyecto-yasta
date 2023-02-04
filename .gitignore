@@ -1,3 +1,4 @@
+migrations
 package-lock.json
 .env
 .vscode
@@ -10,4 +11,5 @@ prisma/dev.db-journal
 node_modules
 dist
 .db
+data
 migrations/

@@ -5,7 +5,7 @@ const router = Router();
 
 const userCycleController = new UserCycleController();
 
-router.get("/", userCycleController.getUserCycle);
+router.get("/:id_cycle/:section?", userCycleController.getUserCycle);
 router.post("/", userCycleController.createUserCycle);
 router.put("/:id", userCycleController.updateUserCycle);
 router.delete("/:id", userCycleController.deleteUserCycle);

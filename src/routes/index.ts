@@ -1,29 +1,26 @@
 import { Express, Router } from "express";
 
 import main from "./main";
-import userCycle from "./userCycle";
+import person from "./person";
+import payment from "./payment";
+import usercycle from "./userCycle";
 
-const api_url: string = <string>process.env.API;
-
-export async function useRouter(app: Express) {
+export async function useRouter(app: Express, api_url: string) {
   //version 1
 
   const router = Router();
 
   //test
   router.use("/main", main);
-
-  //cycle
-  //cycle routes
-
   //person
-  //person routes
+  router.use("/person", person);
+  //payment
+  router.use("/payment", payment);
+
+  //usercycle
+  router.use("/usercycle", usercycle);
 
   //attendadce
   //attendadce routes
-
-  //usercycle
-  router.use("/usercycle", userCycle);
-
   app.use(api_url, router);
 }
