@@ -11,6 +11,10 @@ export async function createCycle(data: Cycle): Promise<any> {
 }
 
 export async function updateCycle(id: number, data: Cycle): Promise<any> {
+  const isexist = await prisma.instance.cycle.findUnique({ where: { id } });
+  if (!isexist) {
+    throw new Error("Usuario no encontrado");
+  }
   const updated_cycle = await prisma.instance.cycle.update({
     where: { id },
     data
