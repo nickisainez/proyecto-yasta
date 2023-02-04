@@ -6,23 +6,22 @@ import { createToken } from "../midlewares/createToken";
 
 class LoginHandler {
   public async login(req: Request, res: Response, next: NextFunction) {
-    try{
+    try {
       const { dni, password } = req.body;
-    const user = await bydni(dni);
-    if (!user) {
-      return failure({ res, message: "DNI no encontrado" });
+      const user = await bydni(dni);
+      if (!user) {
+        return failure({ res, message: "DNI no encontrado" });
+      }
+      const comparePass = await comparePassword(password, user.password);
+      if (!comparePass) {
+        return failure({ res, message: "Clave incorrecta" });
+      }
+      await updateLastSession(user.id);
+      const token = await createToken(dni);
+      return success({ res, data: { ...user, token } });
+    } catch (error) {
+      next(error);
     }
-    const comparePass = await comparePassword(password, user.password);
-    if (!comparePass) {
-      return failure({ res, message: "Clave incorrecta" });
-    }
-    const lastsession = await updateLastSession(user.id);
-    const token = await createToken(dni);
-    return success({ res, data: {...user,token }});
-    }catch(error){
-      return failure({res,  message:{ error } });
-    }
-    
   }
 }
 export default LoginHandler;
