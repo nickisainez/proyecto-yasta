@@ -1,7 +1,9 @@
 export type Attendance = {
   id: number;
-  state: boolean;
+  state: string;
   entry_time: Date;
-  user_id: number;
+  id_person: number;
   priority: string;
+  create_at: Date;
+  update_at: Date;
 };
