@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import { SUCCESS_STATUS, BAD_REQUEST } from "../core/constant";
+import { NextFunction, Request, Response } from "express";
+import { success } from "../utils/response";
 import {
   findPayments,
   storePayment,
@@ -9,60 +9,61 @@ import {
 } from "../repository/PaymentRepository";
 
 class PaymentHandler {
-  public async findPayments(_req: Request, res: Response): Promise<Response> {
-    const data = await findPayments();
-    if (data) {
-      return res.status(SUCCESS_STATUS).send({ data });
-    } else {
-      return res.status(BAD_REQUEST);
+  public async findPayments(_req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = await findPayments();
+      return success({ res, data });
+    } catch (error) {
+      next(error);
     }
   }
 
-  public async storePayment(req: Request, res: Response): Promise<void> {
+  public async storePayment(req: Request, res: Response, next: NextFunction) {
     try {
       const data = req.body;
-      await storePayment(data);
+      const store_payment = await storePayment(data);
 
-      res.status(SUCCESS_STATUS).json({ ok: true, message: "Pago creado correctamente" });
+      return success({ res, data: store_payment, message: "Pago creado correctamente" });
     } catch (error) {
-      res.status(BAD_REQUEST).json({ ok: false, message: error });
+      next(error);
     }
   }
 
-  public async paymentById(req: Request, res: Response): Promise<void> {
+  public async paymentById(req: Request, res: Response, next: NextFunction) {
     try {
       const id = Number(req.params.id);
       const paymentsbyid = await paymentById(id);
 
-      res.status(SUCCESS_STATUS).json({
-        ok: true,
-        data: paymentsbyid
-      });
+      return success({ res, data: paymentsbyid });
     } catch (error) {
-      res.status(BAD_REQUEST).json({ ok: false, message: error });
+      next(error);
     }
   }
 
-  public async updatePayment(req: Request, res: Response): Promise<void> {
+  public async updatePayment(req: Request, res: Response, next: NextFunction) {
     try {
       const id = Number(req.params.id);
       const data = req.body;
-      await updatePayment(id, data);
+      const update_payment = await updatePayment(id, data);
 
-      res.status(SUCCESS_STATUS).json({ ok: true, message: "Pago actualizado" });
+      return success({
+        res,
+        data: update_payment,
+        message: "Pago actualizado correctamente"
+      });
     } catch (error) {
-      res.status(BAD_REQUEST).json({ ok: false, message: error });
+      next(error);
     }
   }
 
-  public async deletePayment(req: Request, res: Response): Promise<void> {
+  public async deletePayment(req: Request, res: Response, next: NextFunction) {
     try {
       const id = Number(req.params.id);
       await deletePayment(id);
 
-      res.status(SUCCESS_STATUS).json({ ok: true, message: "Pago eliminado" });
+      return success({ res, message: "Pago eliminado correctamente" });
     } catch (error) {
-      res.status(BAD_REQUEST).json({ ok: false, message: error });
+      next(error);
     }
   }
 }
