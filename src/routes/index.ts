@@ -7,7 +7,7 @@ import payment from "./payment";
 import login from "./login";
 import usercycle from "./userCycle";
 import attendance from "./attendance";
-
+import verifyToken from "../midlewares/verifyToken";
 
 export async function useRouter(app: Express, api_url: string) {
   //version 1
@@ -15,27 +15,25 @@ export async function useRouter(app: Express, api_url: string) {
   const router = Router();
 
   //test
-  router.use("/main", main);
-  //person
-  router.use("/person", person);
+  router.use("/main", verifyToken, main);
 
-  //cycle
-  //cycle routes
-  router.use("/cycle", cycle);
   //person
-  //person routes
+  router.use("/person", verifyToken, person);
+
+  //cycle routes
+  router.use("/cycle", verifyToken, cycle);
+
   //payment
-  router.use("/payment", payment);
+  router.use("/payment", verifyToken, payment);
+
   //attendadce
-  router.use("/attendance", attendance);
+  router.use("/attendance", verifyToken, attendance);
 
   //usercycle
-  router.use("/usercycle", usercycle);
+  router.use("/usercycle", verifyToken, usercycle);
 
   //login
-  router.use("/login", login);
+  router.use("/login", verifyToken, login);
 
-  //attendadce
-  //attendadce routes
   app.use(api_url, router);
 }
