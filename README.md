@@ -2,7 +2,11 @@
 
 ## Descripción
 
-El presente proyecto se trata del diseño, estructura e implementación del backend y frontend de un aula virtual comprendiendo sus características tales como asistencia, cursos, matrículas, pagos, etc.
+El presente proyecto se trata del diseño, estructura e implementación del backend `(repositorio actual)` y frontend `(link en la parte inferior)` de un aula virtual comprendiendo sus características tales como asistencia, cursos, matrículas, pagos, etc.
+
+## Frontend del proyecto en Vue
+
+https://github.com/tabluz/webapp1
 
 ## Integrantes
 
