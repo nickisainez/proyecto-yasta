@@ -18,7 +18,7 @@ export async function useRouter(app: Express, api_url: string) {
   router.use("/main", verifyToken, main);
 
   //person
-  router.use("/person", verifyToken, person);
+  router.use("/person", person);
 
   //cycle routes
   router.use("/cycle", verifyToken, cycle);
@@ -33,7 +33,7 @@ export async function useRouter(app: Express, api_url: string) {
   router.use("/usercycle", verifyToken, usercycle);
 
   //login
-  router.use("/login", verifyToken, login);
+  router.use("/login", login);
 
   app.use(api_url, router);
 }

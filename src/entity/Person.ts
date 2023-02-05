@@ -13,4 +13,5 @@ export type Person = {
   create_at: Date;
   password: string;
   last_session: Date;
+  temporal_code: string;
 };

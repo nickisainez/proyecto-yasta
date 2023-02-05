@@ -24,23 +24,24 @@ model Cycle {
 }
 
 model Person {
-  id           Int            @id @default(autoincrement())
-  name         String
-  last_name    String
-  date_born_at DateTime
-  number       String
-  dni          String         @unique
-  email        String         @unique
-  address      String
-  photo        String
-  description  String
-  user_type    String
-  password     String
-  last_session DateTime       @default(now())
-  create_at    DateTime       @default(now())
-  attendance   Attendance[]
-  user_payment User_Payment[]
-  user_cycle   User_Cycle[]
+  id            Int            @id @default(autoincrement())
+  name          String
+  last_name     String
+  date_born_at  DateTime
+  number        String
+  dni           String         @unique
+  email         String         @unique
+  address       String
+  photo         String
+  description   String
+  user_type     String
+  password      String
+  last_session  DateTime       @default(now())
+  create_at     DateTime       @default(now())
+  temporal_code String?
+  attendance    Attendance[]
+  user_payment  User_Payment[]
+  user_cycle    User_Cycle[]
 
   @@map("person")
 }
@@ -66,7 +67,7 @@ model Attendance {
   priority   String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  
+
   @@map("attendance")
 }
 
