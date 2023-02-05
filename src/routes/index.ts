@@ -19,7 +19,7 @@ export async function useRouter(app: Express, api_url: string) {
   router.use("/main", verifyToken, main);
 
   //person
-  router.use("/person", verifyToken, person);
+  router.use("/person", person);
 
   //cycle routes
   router.use("/cycle", verifyToken, cycle);
