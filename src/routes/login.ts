@@ -7,7 +7,6 @@ const loginHandler = new LoginHandler();
 
 router.post("/", loginHandler.login);
 router.post("/sendcode", loginHandler.codeRecoverPasswordByPhone);
-router.get("/verifycode", loginHandler.verifyCodeByPhone);
-router.put("/recover/:id", loginHandler.updatePassword);
+router.put("/verifycode/:id", loginHandler.verifyCodeByPhone);
 
 export default router;
