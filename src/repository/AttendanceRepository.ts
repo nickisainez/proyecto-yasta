@@ -10,7 +10,7 @@ export async function existsToday(id_person: number): Promise<any> {
   const value: any = await prisma.instance.$queryRaw(
     Prisma.sql`SELECT * FROM attendance WHERE id_person = ${id_person} and CAST(created_at AS date) = CURRENT_DATE`
   );
-  console.log(value)
+  console.log(value);
   return value.length > 0;
 }
 
