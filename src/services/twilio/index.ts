@@ -16,6 +16,7 @@ export default async function sendSMS(name: string, phoneNumber: string) {
       to: phoneNumber,
       from: "+12065584814"
     });
+    console.log(code, message);
     return { message, code };
   } catch (e) {
     console.log(e);

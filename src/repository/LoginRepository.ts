@@ -19,7 +19,7 @@ export async function updateLastSession(id: number): Promise<any> {
 
 export async function updateTemporalCode(
   id: number,
-  temporal_code: string
+  temporal_code: string | null
 ): Promise<any> {
   return await prisma.instance.person.update({
     where: { id },

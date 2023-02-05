@@ -10,6 +10,7 @@ import {
 import { success, failure } from "../utils/response";
 import { createToken } from "../midlewares/createToken";
 import { sendSMS } from "../services";
+import { GetPersonById } from "../repository/PersonRepository";
 
 class LoginHandler {
   public async login(req: Request, res: Response, next: NextFunction) {
@@ -41,17 +42,17 @@ class LoginHandler {
       //case phone
       const user = await byphone(dni, number);
       if (!user) {
-        return failure({ res, message: "Número telefónico no registrado" });
+        return failure({ res, message: "Tus datos ingresados no coinciden" });
       }
-      const send_code = await sendSMS(user.name, user.number);
-      const new_code = String(send_code?.code);
-      if (!new_code) {
-        return failure({ res, message: "Ocurrio un error inesperado" });
-      }
-      setTimeout(() => {}, 9000);
-      await updateTemporalCode(user.id, new_code);
-
-      return success({ res, data: { user, message: "Validación exitosa" } });
+      return sendSMS(user.name, user.number)
+        .then(async (send_code) => {
+          const new_code = String(send_code?.code);
+          await updateTemporalCode(user.id, new_code);
+          return success({ res, message: "Te enviamos un sms", data: user.id });
+        })
+        .catch(() => {
+          throw new Error("Ocurrio un error inesperado");
+        });
     } catch (error) {
       next(error);
     }
@@ -59,24 +60,17 @@ class LoginHandler {
 
   public async verifyCodeByPhone(req: Request, res: Response, next: NextFunction) {
     try {
-      const { temporal_code, number, dni } = req.body;
-      const user = await byphone(dni, number);
+      const { temporal_code, password: newpassword } = req.body;
+      const id = parseInt(req.params.id);
+      const user = await GetPersonById(id);
       if (temporal_code === user.temporal_code) {
-        return success({ res, data: { user, message: "Validación exitosa" } });
+        const passHasheado = await hashPassword(newpassword);
+        await updatePassword(id, passHasheado);
+        await updateTemporalCode(id, null);
+        return success({ res, message: "Actualizacion exitosa" });
       } else {
         return failure({ res, message: "Código inválido" });
       }
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  public async updatePassword(req: Request, res: Response, next: NextFunction) {
-    try {
-      const id = Number(req.params.id);
-      const passHasheado = await hashPassword(req.body.password);
-      await updatePassword(id, passHasheado);
-      return success({ res, data: { message: "Actualizacion exitosa" } });
     } catch (error) {
       next(error);
     }

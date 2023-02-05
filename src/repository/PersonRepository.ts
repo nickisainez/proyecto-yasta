@@ -5,6 +5,10 @@ export async function GetPerson(): Promise<any> {
   return await prisma.instance.person.findMany();
 }
 
+export async function GetPersonById(id: number): Promise<any> {
+  return await prisma.instance.person.findUnique({ where: { id } });
+}
+
 export async function CreatePerson(data: Person): Promise<any> {
   const new_person = await prisma.instance.person.create({ data });
   return new_person;
