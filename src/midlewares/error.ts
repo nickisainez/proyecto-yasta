@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { logMiddleware } from "../repository/LogRepository";
 import { failure } from "../utils/response";
 
 export const syncErrorMiddleware = (
@@ -7,5 +8,6 @@ export const syncErrorMiddleware = (
   res: Response,
   next: NextFunction //eslint-disable-line
 ) => {
+  logMiddleware(err.message);
   return failure({ res, message: err.message });
 };
