@@ -73,12 +73,10 @@ model Attendance {
 
 model User_Payment {
   id           Int      @id @default(autoincrement())
-  payment_date DateTime
   person       Person   @relation(fields: [id_person], references: [id])
   id_person    Int
-  payment      Payment  @relation(fields: [id_payment], references: [id])
-  id_payment   Int
-  created_at   DateTime @default(now())
+
+  payments     Payment[]
 
   @@map("user_payment")
 }
