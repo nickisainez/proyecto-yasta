@@ -12,7 +12,7 @@ export default async function sendSMS(name: string, phoneNumber: string) {
   try {
     const code = generateCode();
     const message = await client.messages.create({
-      body: `Hola ${name}, tu codigo es ${code}`,
+      body: `Hola ${name}, tu codigo de verificacion es ${code}`,
       to: phoneNumber,
       from: "+12065584814"
     });

@@ -32,8 +32,8 @@ model Person {
   dni           String         @unique
   email         String         @unique
   address       String
-  photo         String
-  description   String
+  photo         String?
+  description   String?
   user_type     String
   password      String
   last_session  DateTime       @default(now())

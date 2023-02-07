@@ -4,7 +4,9 @@ import {
   GetPerson,
   CreatePerson,
   DeletePerson,
-  UpdatePerson
+  UpdatePerson,
+  GetPersonById,
+  PersonByDNI
 } from "../repository/PersonRepository";
 import { success } from "../utils/response";
 
@@ -14,7 +16,25 @@ class PersonHandler {
       const data = await GetPerson();
       return success({ res, data });
     } catch (error) {
-      next(error);
+      next();
+    }
+  }
+  public async PersonByDNI(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { dni } = req.body;
+      const data = await PersonByDNI( dni );
+      return success({ res, data });
+    } catch (error) {
+      next();
+    }
+  }
+  public async GetPersonById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = Number(req.params.id);
+      const data = await GetPersonById(id);
+      return success({ res, data });
+    } catch (error) {
+      next();
     }
   }
 
@@ -26,7 +46,7 @@ class PersonHandler {
       const new_person = await CreatePerson(data);
       return success({ res, data: new_person, message: "Correctamente creado" });
     } catch (error) {
-      next(error);
+      next();
     }
   }
 
@@ -37,7 +57,7 @@ class PersonHandler {
       const update_person = await UpdatePerson(id, data);
       return success({ res, data: update_person, message: "Correctamente modificado" });
     } catch (error) {
-      next(error);
+      next();
     }
   }
 
@@ -47,7 +67,7 @@ class PersonHandler {
       await DeletePerson(id);
       return success({ res, message: "Correctamente eliminado" });
     } catch (error) {
-      next(error);
+      next();
     }
   }
 }
