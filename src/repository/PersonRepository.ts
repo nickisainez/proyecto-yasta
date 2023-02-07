@@ -4,6 +4,9 @@ import { Person } from "../entity/Person";
 export async function GetPerson(): Promise<any> {
   return await prisma.instance.person.findMany();
 }
+export async function PersonByDNI(dni: string): Promise<any> {
+  return await prisma.instance.person.findFirstOrThrow({where:{ dni }});
+}
 
 export async function GetPersonById(id: number): Promise<any> {
   return await prisma.instance.person.findUnique({ where: { id } });
