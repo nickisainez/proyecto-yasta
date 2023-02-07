@@ -21,6 +21,7 @@ class PaymentHandler {
   public async storePayment(req: Request, res: Response, next: NextFunction) {
     try {
       const data = req.body;
+      data.expiration_date = new Date(data.expiration_date.split("T")[0]);
       const store_payment = await storePayment(data);
 
       return success({ res, data: store_payment, message: "Pago creado correctamente" });
@@ -44,6 +45,7 @@ class PaymentHandler {
     try {
       const id = Number(req.params.id);
       const data = req.body;
+      data.expiration_date = new Date(data.expiration_date.split("T")[0]);
       const update_payment = await updatePayment(id, data);
 
       return success({

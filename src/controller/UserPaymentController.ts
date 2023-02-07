@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { success } from "../utils/response";
 import {
-  findUserPayment,
   updateUserPayment,
   deleteUserPayment
 } from "../repository/UserPaymentRepository";
@@ -13,8 +12,10 @@ const prisma = new PrismaClient();
 class UserPaymentHandler {
   public async findUserPayment(_req: Request, res: Response, next: NextFunction) {
     try {
-      const data = await findUserPayment();
-      return success({ res, data });
+      const allPaymentsUsers = await prisma.user_Payment.findMany({
+        include: { payments: true }
+      });
+      return success({ res, data: allPaymentsUsers });
     } catch (error) {
       next(error);
     }
@@ -22,13 +23,11 @@ class UserPaymentHandler {
 
   public async storeUserPayment(req: Request, res: Response, next: NextFunction) {
     try {
-      const { payment_date, person, payment } = req.body;
+      const data = req.body;
 
       await prisma.user_Payment.create({
         data: {
-          payment_date,
-          person: { connect: { id: person } },
-          payment: { connect: { id: payment } }
+          person: { connect: { id: data.id_person } }
         }
       });
       return success({ res, message: "Pago de usuario creado correctamente" });
@@ -63,6 +62,28 @@ class UserPaymentHandler {
       next(error);
     }
   }
-}
 
+  public async paymentToUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = req.body;
+
+      await prisma.user_Payment.update({
+        where: {
+          id: data.id_user_Payment
+        },
+        include: {
+          payments: true
+        },
+        data: {
+          payments: { connect: { id: data.id_payment } }
+        }
+      });
+      res
+        .status(201)
+        .json({ ok: true, message: "Pago agregado a usuario correctamente" });
+    } catch (error) {
+      res.status(500).json({ ok: false, message: error });
+    }
+  }
+}
 export default UserPaymentHandler;
