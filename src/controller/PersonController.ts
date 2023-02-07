@@ -22,7 +22,7 @@ class PersonHandler {
   public async PersonByDNI(req: Request, res: Response, next: NextFunction) {
     try {
       const { dni } = req.body;
-      const data = await PersonByDNI( dni );
+      const data = await PersonByDNI(dni);
       return success({ res, data });
     } catch (error) {
       next();
