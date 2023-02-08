@@ -10,6 +10,7 @@
     "prettierwin": "npx  prettier --config .prettierrc --write .",
     "precommit": "npm run prettier && npm run lint",
     "precommitwin": "npm run prettierwin && npm run lintwin"
+    
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
