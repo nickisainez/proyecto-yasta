@@ -9,8 +9,8 @@
     "prettier": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "prettierwin": "npx  prettier --config .prettierrc --write .",
     "precommit": "npm run prettier && npm run lint",
-    "precommitwin": "npm run prettierwin && npm run lintwin"
-    
+    "precommitwin": "npm run prettierwin && npm run lintwin",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
