@@ -16,7 +16,7 @@ export async function useRouter(app: Express, api_url: string) {
   const router = Router();
 
   //test
-  router.use("/main", verifyToken, main);
+  router.use("/main",verifyToken , main);
 
   //person
   router.use("/person", verifyToken, person);
@@ -25,7 +25,7 @@ export async function useRouter(app: Express, api_url: string) {
   router.use("/cycle", verifyToken, cycle);
 
   //payment
-  router.use("/payment", verifyToken, payment);
+  router.use("/payment", verifyToken,  payment);
 
   //userpayments
   router.use("/userpayments", verifyToken, userpayments);

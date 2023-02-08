@@ -13,3 +13,4 @@ dist
 .db
 data
 migrations/
+.vercel
