@@ -5,12 +5,9 @@ package-lock.json
 .fleet
 .idea
 *.db
-build
 prisma/dev.db
 prisma/dev.db-journal
 node_modules
 dist
 .db
-data
 migrations/
-.vercel
