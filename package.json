@@ -10,7 +10,7 @@
     "prettierwin": "npx  prettier --config .prettierrc --write .",
     "precommit": "npm run prettier && npm run lint",
     "precommitwin": "npm run prettierwin && npm run lintwin",
-    "vercel-build": "prisma generate && prisma migrate deploy && next build"
+    "vercel-build": "npx prisma db push"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
