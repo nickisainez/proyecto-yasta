@@ -9,6 +9,7 @@ import usercycle from "./userCycle";
 import attendance from "./attendance";
 import userpayments from "./userpayments";
 import verifyToken from "../midlewares/verifyToken";
+import count from "./count";
 
 export async function useRouter(app: Express, api_url: string) {
   //version 1
@@ -16,7 +17,7 @@ export async function useRouter(app: Express, api_url: string) {
   const router = Router();
 
   //test
-  router.use("/main",verifyToken , main);
+  router.use("/main", verifyToken, main);
 
   //person
   router.use("/person", person);
@@ -25,7 +26,7 @@ export async function useRouter(app: Express, api_url: string) {
   router.use("/cycle", verifyToken, cycle);
 
   //payment
-  router.use("/payment", verifyToken,  payment);
+  router.use("/payment", verifyToken, payment);
 
   //userpayments
   router.use("/userpayments", verifyToken, userpayments);
@@ -38,6 +39,9 @@ export async function useRouter(app: Express, api_url: string) {
 
   //login
   router.use("/login", login);
+
+  //Counts
+  router.use("/count", count);
 
   app.use(api_url, router);
 }

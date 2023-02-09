@@ -60,16 +60,26 @@ class LoginHandler {
 
   public async verifyCodeByPhone(req: Request, res: Response, next: NextFunction) {
     try {
-      const { temporal_code, password: newpassword } = req.body;
+      const { temporal_code, password: newpassword, current_password } = req.body;
       const id = parseInt(req.params.id);
       const user = await GetPersonById(id);
-      if (temporal_code === user.temporal_code) {
+      if (!current_password) {
+        if (temporal_code === user.temporal_code) {
+          const passHasheado = await hashPassword(newpassword);
+          await updatePassword(id, passHasheado);
+          await updateTemporalCode(id, null);
+          return success({ res, message: "Actualizacion exitosa" });
+        } else {
+          return failure({ res, message: "Código inválido" });
+        }
+      } else {
+        const comparePass = await comparePassword(current_password, user.password);
+        if (!comparePass) {
+          return failure({ res, message: "Clave actual incorrecta" });
+        }
         const passHasheado = await hashPassword(newpassword);
         await updatePassword(id, passHasheado);
-        await updateTemporalCode(id, null);
         return success({ res, message: "Actualizacion exitosa" });
-      } else {
-        return failure({ res, message: "Código inválido" });
       }
     } catch (error) {
       next(error);

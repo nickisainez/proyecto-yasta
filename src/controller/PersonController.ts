@@ -54,6 +54,7 @@ class PersonHandler {
     try {
       const id = Number(req.params.id);
       const data = req.body;
+      data.password = await hashPassword(req.body.password);
       const update_person = await UpdatePerson(id, data);
       return success({ res, data: update_person, message: "Correctamente modificado" });
     } catch (error) {
