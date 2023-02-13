@@ -19,8 +19,10 @@ class CycleController {
 
   public async createCycle(req: Request, res: Response, next: NextFunction) {
     try {
-      const cycle = req.body;
-      const new_cycle = await createCycle(cycle);
+      const data = req.body;
+      data.start_date = new Date(data.start_date.split("T")[0]);
+      data.finish_date = new Date(data.finish_date.split("T")[0]);
+      const new_cycle = await createCycle(data);
       return success({ res, data: new_cycle, message: "Se creo correctamente" });
     } catch (error) {
       next(error);
@@ -30,8 +32,10 @@ class CycleController {
   public async updateCycle(req: Request, res: Response, next: NextFunction) {
     try {
       const id = parseInt(req.params.id);
-      const cycle = req.body;
-      const updated_cycle = await updateCycle(id, cycle);
+      const data = req.body;
+      data.start_date = new Date(data.start_date.split("T")[0]);
+      data.finish_date = new Date(data.finish_date.split("T")[0]);
+      const updated_cycle = await updateCycle(id, data);
       return success({ res, data: updated_cycle, message: "Se actualizo correctamente" });
     } catch (error) {
       next(error);
